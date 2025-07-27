@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task</title>
+    <style>
+        * {
+      margin: 0;
+      padding: 0;
+    }
+    .task {
+      position: relative;
+      background-color: green;
+      display: flex;
+      overflow: visible;
+      min-width: 200px; 
+      width: max-content;      
+      white-space: nowrap;
+      height: auto;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      padding: 10px;
+    }
+    .filhos {
+      position: absolute;
+      display: block;
+
+      left: 100%;
+      top: 0;
+      width: 200px;
+      height: 100px;
+    }
+    .coluna {
+      height: 100%;
+      background-color: aqua;
+    }
+    </style>
+</head>
+<body>
+    <div id="arvore" class="coluna"></div>
+
+    <script src="/static/script.js"></script>
+
+</body>
+</html>

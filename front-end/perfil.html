@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+<body>
+    <h1>nome</h1>
+    <div id="tasks"></div>
+    
+    <script>
+        if (!localStorage.getItem("token")) {
+            window.location.href = "/login";
+        }
+        fetch("/perfil_", {
+            headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+        }).then(res => {
+            if (res.status === 403 || res.status === 401) {
+                // token expirado ou inválido
+                localStorage.removeItem("token");
+                localStorage.removeItem("userId");
+                window.location.href = "/login";
+                return;
+            }
+            return res.json();
+        }).then(user => {
+            document.getElementsByTagName("h1")[0].textContent = user.nome;
+            document.title = user.nome;
+            const div = document.getElementById("tasks");
+            console.log(user)
+            if (user.tasks) {
+                let tasks = [];
+                try {
+                    tasks = JSON.parse(user.tasks);
+                } catch (error) {
+                    console.error("Erro ao converter JSON:", error);
+                }
+                if (Array.isArray(tasks)) {
+                    let c = 0;
+                    localStorage.setItem("tasks", JSON.stringify(tasks))
+                    for (let task of tasks) {
+                        console.log(task)
+                        let task_div = document.createElement("div");
+                        task_div.textContent = task.nome;
+                        let task_enter = document.createElement("a");
+                        task_enter.textContent = "Entrar";
+                        task_enter.href = `/${localStorage.getItem("userId")}/${c}`
+
+                        div.appendChild(task_div);
+                        div.appendChild(task_enter);
+
+                        c++;
+                    }
+                } else {
+                    console.log("as tasks n são um array")
+                }
+            } else {
+                let create_task__a = document.createElement("a");
+                create_task__a.textContent = "criar task";
+                create_task__a.href = "/task-create"
+                
+                div.appendChild(create_task__a);
+            }
+        })
+    </script>
+</body>
+</html>

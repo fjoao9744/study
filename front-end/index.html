@@ -4,64 +4,37 @@
   <meta charset="UTF-8" />
   <title>Meu Primeiro Vue</title>
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-    }
-    .task {
-      position: relative;
-      background-color: green;
-      display: flex;
-      overflow: visible;
-      min-width: 200px; 
-      width: max-content;      
-      white-space: nowrap;
-      height: auto;
-      align-items: center;
-      justify-content: center;
-      flex: 0 0 auto;
-      padding: 10px;
-    }
-    .filhos {
-      position: absolute;
-      display: block;
-
-      left: 100%;
-      top: 0;
-      width: 200px;
-      height: 100px;
-    }
-    .coluna {
-      height: 100%;
-      background-color: aqua;
-    }
-    
-    
-  </style>
 </head>
 <body>
-  <div id="arvore" class="coluna">
 
-  </div>
+  <h1>bem vindo ao meu site</h1>
 
-  <!-- <script>
-    const app = Vue.createApp({
-      data() {
-        return {
-          mensagem: 'Olá, Vue!'
-        }
-      },
-      methods: {
-        mudarMensagem() {
-          this.mensagem = 'Você clicou no botão!'
-        }
-      }
-    })
+  <header></header>
 
-    app.mount('#app')
-  </script> -->
+  <script>
+    const token = localStorage.getItem("token");
+    const header = document.getElementsByTagName("header")[0];
+    
+    if (!token) {
+      const login_a = document.createElement("a");
+      login_a.href = "/login";
+      login_a.textContent = "login";
 
-  <script src="script.js"></script>
+      const register_a = document.createElement("a");
+      register_a.href = "/register";
+      register_a.textContent = "register";
+
+      header.appendChild(login_a);
+      header.appendChild(register_a);
+    } else {
+      const perfil_a = document.createElement("a");
+      perfil_a.href = "/perfil";
+      perfil_a.textContent = "perfil";
+
+      header.appendChild(perfil_a);
+    }
+
+  </script>
+
 </body>
 </html>

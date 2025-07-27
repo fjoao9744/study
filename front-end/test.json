@@ -1,0 +1,26 @@
+[{
+    "nome": "fazer_pao",
+    "check": false,
+    "filhos": [
+        {
+            "nome": "comprar_itens",
+            "check": false,
+            "filhos": [
+                {"nome": "farinha", "check": true},
+                {"nome": "trigo", "check": true},
+                {"nome": "leite", "check": true,
+                    "filhos": [
+                        {"nome": "comparar_marcas", "check": false,
+                            "filhos": [
+                                {"nome": "parmalat", "check": true},
+                                {"nome": "Itambé", "check": false}
+                            ]
+                        }
+                    ]
+                },
+                {"nome": "fermento", "check": true}
+            ]
+        },
+        {"nome": "ligar_forno", "check": true}
+    ]
+}]

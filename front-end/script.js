@@ -1,40 +1,15 @@
-const data = [{
-    nome: "fazer_pao",
-    check: false,
-    filhos: [
-        {
-            nome: "comprar_itens",
-            check: false,
-            filhos: [
-                {nome: "farinha", check: true},
-                {nome: "trigo", check: true},
-                {nome: "leite", check: true,
-                    filhos: [
-                        {nome: "comparar_marcas", check: false,
-                            filhos: [
-                                {nome: "parmalat", check: true},
-                                {nome: "Itambé", check: false}
-                            ]
-                        }
-                    ]
-                },
-                {nome: "fermento", check: true},
+const path = window.location.pathname;
+const data = JSON.parse(localStorage.getItem("tasks"))[parseInt(path.split("/")[2])];
 
-            ]
-        },
-        {nome: "ligar_forno", check: true}
-    ]
-}]
+console.log(data)
 
-let arvore = document.getElementById("arvore");
-
-criar_filhos(data, arvore);
+criar_filhos([data], document.getElementById("arvore"));
 
 function criar_filhos(data, div, obj_id = "") {
     for (let index in data) {
 
         let obj = data[index]
-        let obj_id_atual = obj_id + "." + obj.nome;
+        let obj_id_atual = obj_id ? obj_id + "." + obj.nome : obj.nome;
 
         let d = document.createElement("div")
         d.classList.add("task")
@@ -48,6 +23,7 @@ function criar_filhos(data, div, obj_id = "") {
 
         input.addEventListener("change", event => {
             obj.check = input.checked;
+            console.log(data)
             salvar();
         })
 
@@ -61,7 +37,7 @@ function criar_filhos(data, div, obj_id = "") {
             h1.addEventListener("click", event => {
                 event.stopPropagation();
                 if (!aberto) {
-                    criar_filhos(obj.filhos, filhos, obj_id_atual)
+                    criar_filhos(obj.filhos, filhos, obj_id_atual);
                     aberto = true;
                 } else {
                     while (filhos.firstChild) {
@@ -81,7 +57,7 @@ function criar_filhos(data, div, obj_id = "") {
 }
 
 function salvar() {
-    fetch(`/${id}`, {
+    fetch(`/${localStorage.getItem("userId")}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json"

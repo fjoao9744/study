@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+</head>
+<body>
+    <div>
+        <form id="registerForm">
+            <label for="nome">nome:</label>
+            <input type="text" name="nome" placeholder="Digite seu nome aqui" required>
+
+            <label for="email">Email:</label>
+            <input type="email" name="email" placeholder="Digite seu email aqui" required>
+
+            <label for="senha">Senha:</label>
+            <input type="password" name="senha" placeholder="Digite sua senha aqui" required>
+
+            <label for="senha">Senha novamente:</label>
+            <input type="password" name="confirm_senha" placeholder="Digite sua senha novamente aqui" required>
+
+            <button type="submit">Registrar</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("registerForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const form = event.target;
+
+            const dados = {
+                nome: form.nome.value,
+                email: form.email.value,
+                senha: form.senha.value,
+                confirm_senha: form.confirm_senha.value,
+            }
+
+            if (dados.senha !== dados.confirm_senha) {
+                alert("As senhas não coincidem!");
+                return;
+            }
+
+            try {
+                const resposta = await fetch("/register", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify(dados)
+                })
+
+                const resultado = resposta.json()
+
+                if (resposta.ok) {
+                    window.location.href = "/login"
+                } else {
+                    alert("Erro ao registrar: " + resultado.erro);
+                }
+                
+            } catch (erro) {
+                alert("Erro inesperado: " + erro.message);
+            }
+        })
+    </script>
+</body>
+</html>
