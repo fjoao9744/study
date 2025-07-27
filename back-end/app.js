@@ -24,14 +24,15 @@ mongoose.connect(URL, {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-app.use(express.static(path.join(__dirname, "../front-end")));
+app.use("/static", express.static(path.join(__dirname, "../front-end")));
 
-app.get("/", (req, res) => {
+app.get("/", (req, res) => { // homepage
     res.sendFile(path.join(__dirname, "../front-end/index.html"))
 });
 
-app.put("/:id", async (req, res) => {
+app.put("/:id", async (req, res) => { // atualizar dados
     const { id } = req.params;
+    console.log("ID recebido:", id);
     const { tasks } = req.body;
 
     const usuarioAtualizado = await updateUser(id, tasks);
@@ -46,7 +47,13 @@ app.put("/:id", async (req, res) => {
     });
 })
 
-app.get("/perfil", autenticarToken , async (req, res) => {
+app.get("/perfil", (req, res) => {
+    res.sendFile(path.join(__dirname, "../front-end/perfil.html"))
+})
+
+// AUTH
+
+app.get("/perfil_", autenticarToken , async (req, res) => {
     const user = await User.findById(req.userId, "-senha");
     res.json(user);
 })
@@ -82,6 +89,19 @@ app.post("/login", async (req, res) => {
 
     res.json({ userId: user._id, token });
 })
+
+// task-create
+
+app.get("/task-create", async (req, res) => {
+    res.sendFile(path.join(__dirname, "../front-end/task-create.html"))
+})
+
+app.post("/task-create", async (req, res) => {
+})
+
+app.get("/:id/:task_num", async (req, res) => {
+    res.sendFile(path.join(__dirname, "../front-end/task.html"))
+}) // pagina da task
 
 app.listen(3000, () => {
     console.log("Servidor rodando em http://localhost:3000");
