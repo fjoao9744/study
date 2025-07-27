@@ -1,12 +1,15 @@
 const User = require("./models/User.js");
+const bcrypt = require("bcrypt");
 
 async function criarUser(data) {
-    const {nome, email, senha} = data;
+    const {nome, email, senha, confirm_senha} = data;
+    if (senha !== confirm_senha) {
+        throw new Error("Credenciais incompativeis");
+    }
     if (!nome || !email || !senha) {
         throw new Error("Campos obrigatórios não preenchidos");
     }
     const senhaCriptografada = await bcrypt.hash(senha, 10);
-    
     const novo = new User({
         nome: nome,
         email: email,

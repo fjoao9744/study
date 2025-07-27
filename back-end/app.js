@@ -9,8 +9,8 @@ const User = require("./models/User.js");
 const path = require("path");
 const cors = require("cors");
 
-const SECRET = process.env.SECRET;
 const URL = process.env.MONGO_URL;
+const SECRET = process.env.SECRET;
 
 mongoose.connect(URL, {
     useNewUrlParser: true,
@@ -29,12 +29,6 @@ app.use(express.static(path.join(__dirname, "../front-end")));
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "../front-end/index.html"))
 });
-
-app.post("/", async (req, res) => {
-    const {nome} = req.body;
-    const id = await criarUser(nome)
-    res.json({id});
-})
 
 app.put("/:id", async (req, res) => {
     const { id } = req.params;
@@ -70,6 +64,7 @@ app.post("/register", async (req, res) => {
         const userId = await criarUser(req.body);
         res.status(201).json({ userId });
     } catch (err) {
+        console.error("Erro ao registrar:", err);
         res.status(400).json({ erro: "Erro ao registrar", detalhes: err });
     }
 })
