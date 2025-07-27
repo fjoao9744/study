@@ -1,9 +1,17 @@
 const User = require("./models/User.js");
 
-async function criarUser(nome) {
+async function criarUser(data) {
+    const {nome, email, senha} = data;
+    if (!nome || !email || !senha) {
+        throw new Error("Campos obrigatórios não preenchidos");
+    }
+    const senhaCriptografada = await bcrypt.hash(senha, 10);
+    
     const novo = new User({
         nome: nome,
-        tasks: "Lavar roupa"
+        email: email,
+        senha: senhaCriptografada,
+        tasks: ""
     });
 
     await novo.save();

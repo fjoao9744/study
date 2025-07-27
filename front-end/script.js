@@ -43,11 +43,12 @@ function criar_filhos(data, div, obj_id = "") {
         h1.textContent = obj.nome;
         let input = document.createElement("input");
         input.type = "checkbox";
-        input.id = obj_id_atual
+        input.id = obj_id_atual;
         input.checked = obj.check;
 
         input.addEventListener("change", event => {
             obj.check = input.checked;
+            salvar();
         })
 
         if (obj.filhos) {
@@ -58,7 +59,7 @@ function criar_filhos(data, div, obj_id = "") {
             d.style.cursor = "pointer";
             let aberto = false;
             h1.addEventListener("click", event => {
-                event.stopPropagation()
+                event.stopPropagation();
                 if (!aberto) {
                     criar_filhos(obj.filhos, filhos, obj_id_atual)
                     aberto = true;
@@ -77,4 +78,14 @@ function criar_filhos(data, div, obj_id = "") {
         div.appendChild(d);
     
     }
+}
+
+function salvar() {
+    fetch(`/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
 }
