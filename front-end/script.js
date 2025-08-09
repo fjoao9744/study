@@ -1,5 +1,5 @@
 const path = window.location.pathname;
-const data = JSON.parse(localStorage.getItem("tasks"))[parseInt(path.split("/")[2])];
+const data = JSON.parse(localStorage.getItem("tasks"));
 
 console.log(data)
 
@@ -13,7 +13,9 @@ function criar_filhos(data, div, obj_id = "") {
 
         let d = document.createElement("div")
         d.classList.add("task")
-    
+
+        console.log(obj_id)
+
         let h1 = document.createElement("h1");
         h1.textContent = obj.nome;
         let input = document.createElement("input");
@@ -27,6 +29,7 @@ function criar_filhos(data, div, obj_id = "") {
             salvar();
         })
 
+        
         if (obj.filhos) {
             let filhos = document.createElement("div");
             filhos.classList.add("filhos");
@@ -46,6 +49,14 @@ function criar_filhos(data, div, obj_id = "") {
                     aberto = false;
                 }
             })
+            let add_button = document.createElement("button");
+            add_button.textContent = ":";
+            add_button.classList.add("add_buttons");
+            add_button.style.display = "none";
+            add_button.addEventListener("click", () => {
+                criar_task(obj.filhos);
+            })
+            d.appendChild(add_button);
         }
 
         d.appendChild(h1);
@@ -57,11 +68,31 @@ function criar_filhos(data, div, obj_id = "") {
 }
 
 function salvar() {
+    localStorage.setItem("tasks", JSON.stringify(data));
+
     fetch(`/${localStorage.getItem("userId")}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(data)
+    }).then(() => console.log("salvo!"))
+}
+
+function criar_task(pai, is_pai = false) {
+    let div = document.createElement("div");
+    div.classList.add("modal");
+    div.id = "add_task__modal";
+    let input = document.createElement("input");
+    div.appendChild(input);
+    let button = document.createElement("button");
+    button.textContent = "criar";
+    button.addEventListener("click", () => {
+        is_pai ? pai.push({"nome": input.value, "check": false, "filhos": []}) : pai.push({"nome": input.value, "check": false})
+        salvar();
+        div.style.display = "none"
     })
+    div.appendChild(button);
+    div.style.display = "block";
+    document.body.appendChild(div)
 }

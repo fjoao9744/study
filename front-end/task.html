@@ -4,44 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task</title>
-    <style>
-        * {
-      margin: 0;
-      padding: 0;
-    }
-    .task {
-      position: relative;
-      background-color: green;
-      display: flex;
-      overflow: visible;
-      min-width: 200px; 
-      width: max-content;      
-      white-space: nowrap;
-      height: auto;
-      align-items: center;
-      justify-content: center;
-      flex: 0 0 auto;
-      padding: 10px;
-    }
-    .filhos {
-      position: absolute;
-      display: block;
-
-      left: 100%;
-      top: 0;
-      width: 200px;
-      height: 100px;
-    }
-    .coluna {
-      height: 100%;
-      background-color: aqua;
-    }
-    </style>
+    <link rel="stylesheet" href="/static/task.css">
 </head>
 <body>
-    <div id="arvore" class="coluna"></div>
+  <div class="modal" id="remove_task__modal">
+    
+  </div>
+  <header>
+    <button id="add_task__button">adicionar task</button>
+  </header>
 
-    <script src="/static/script.js"></script>
+  <div id="arvore" class="coluna"></div>
+
+  <script src="/static/script.js"></script>
+  <script>
+    document.getElementById("add_task__button").addEventListener("click", () => {
+      let buttons = document.getElementsByClassName("add_buttons");
+      let primeiroVisivel = getComputedStyle(buttons[0]).display !== "none";
+
+      for (let i = 0; i < buttons.length; i++) {
+        buttons[i].style.display = primeiroVisivel ? "none" : "block";
+      }
+    })
+  </script>
 
 </body>
 </html>
