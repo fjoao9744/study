@@ -1,41 +1,166 @@
+/* ===== Reset ===== */
 * {
   margin: 0;
   padding: 0;
 }
+
+body {
+  height: 100vw;
+}
+
+/* ===== Coluna principal ===== */
+.coluna {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 20px; 
+  padding: 20px;
+  background-color: aqua;
+  height: 100%;
+}
+
+/* ===== Task individual ===== */
 .task {
   position: relative;
   background-color: green;
   display: flex;
-  overflow: visible;
-  min-width: 200px; 
-  width: max-content;      
+  flex-direction: column;  /* filhos empilhados dentro da task */
+  min-width: 200px;
+  width: max-content;
   white-space: nowrap;
   height: auto;
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
   padding: 10px;
+  overflow: visible;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
-.filhos {
-  position: absolute;
-  display: block;
 
-  left: 100%;
+/* Hover efeito visual apenas */
+.task > .task:hover {
+  transform: scale(1, 1.05);
+  z-index: 10;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+/* Diminuir irmãos ao focar em uma */
+.task:not(:hover) {
+  transform: scale(0.95, 1);
+  opacity: 0.6;
+}
+
+/* ===== Filhos ===== */
+.filhos {
+  position: absolute;       /* mantém os filhos à direita do pai */
   top: 0;
-  width: 200px;
-  height: 100px;
+  left: 100%;               /* sempre à direita do pai */
+  display: flex;
+  flex-direction: column;      /* filhos lado a lado */
+  max-height: none;         /* JS controla se está aberto ou fechado */
+  opacity: 1;               /* JS controla visibilidade */
+  overflow: visible;        /* filhos visíveis quando abertos */
+  pointer-events: auto;     /* filhos clicáveis */
 }
-.coluna {
+
+/* Pequena linha de divisão para cada branch */
+.filhos::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0px;
+  width: 2px;
   height: 100%;
-  background-color: aqua;
+  background-color: rgba(0,0,0,0.2);
 }
+
+/* ===== Checkboxes ===== */
+.task input[type="checkbox"] {
+  margin-top: 5px;
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+/* ===== Botão adicionar filho ===== */
+.add_buttons {
+  margin-top: 5px;
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 3px 6px;
+  font-size: 12px;
+  cursor: pointer;
+  display: none;
+}
+
+.add_buttons:hover {
+  background-color: #1976D2;
+}
+
+/* ===== Modal ===== */
 .modal {
   display: none;
   position: fixed;
   top: 0; left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.5); /* sombra escura */
+  background-color: rgba(0,0,0,0.5);
   justify-content: center;
   align-items: center;
+}
+
+.modal > div {
+  background-color: white;
+  padding: 20px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal input {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 200px;
+}
+
+.modal button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal button:hover {
+  background-color: #45a049;
+}
+
+/* ===== Header ===== */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #222;
+  color: white;
+}
+
+header button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+header button:hover {
+  background-color: #45a049;
 }

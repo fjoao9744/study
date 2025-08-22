@@ -3,7 +3,7 @@ const data = JSON.parse(localStorage.getItem("tasks"));
 
 console.log(data)
 
-criar_filhos([data], document.getElementById("arvore"));
+criar_filhos(data, document.getElementById("arvore"));
 
 function criar_filhos(data, div, obj_id = "") {
     for (let index in data) {
@@ -29,7 +29,6 @@ function criar_filhos(data, div, obj_id = "") {
             salvar();
         })
 
-        
         if (obj.filhos) {
             let filhos = document.createElement("div");
             filhos.classList.add("filhos");
