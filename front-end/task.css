@@ -48,7 +48,7 @@ body {
 /* Diminuir irmãos ao focar em uma */
 .task:not(:hover) {
   transform: scale(0.95, 1);
-  opacity: 0.6;
+  opacity: 0.8;
 }
 
 /* ===== Filhos ===== */
